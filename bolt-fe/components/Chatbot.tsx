@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';  // Toast ekledik
 import ReactLoading from 'react-loading';
 
-
 interface Question {
     questionText: string;
 }
@@ -15,61 +14,50 @@ interface Answer {
 }
 
 const Chatbot: React.FC = () => {
-    const [questions, setQuestions] = useState<Question[]>([]); // Backend'den gelecek sorular
+    const [questions, setQuestions] = useState<Question[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-    const [answers, setAnswers] = useState<Answer[]>([]); // Kullanıcı cevapları
+    const [answers, setAnswers] = useState<Answer[]>([]);
     const [input, setInput] = useState<string>("");
-    const [chatNumber] = useState<number>(1); // Sabit chat number
-    const [lastRespondDatetime, setLastRespondDatetime] = useState<string | null>(null); // Son cevap zamanı
-    const [loading, setLoading] = useState<boolean>(true); // Yüklenme durumu
+    const [chatNumber] = useState<number>(1);
+    const [lastRespondDatetime, setLastRespondDatetime] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    // Dinamik userId kullanmak için
     const getUserId = () => {
         let userId: string = localStorage.getItem('userId');
         if (!userId) {
-            userId = uuidv4(); // Yeni UUID oluştur
-            localStorage.setItem('userId', userId); // UUID'yi localStorage'a kaydet
+            userId = uuidv4();
+            localStorage.setItem('userId', userId);
         }
         return userId;
     };
 
-    const userId = getUserId(); // UUID'yi al
+    const userId = getUserId();
 
-    // Backend'den soruları ve cevapları çekme
     useEffect(() => {
         const fetchQuestionsAndAnswers = async () => {
             try {
-                setLoading(true); // Yüklenmeye başla
+                setLoading(true);
 
-                // Soruları getir
                 const questionsResponse = await fetch("http://localhost:3001/questions");
-                if (!questionsResponse.ok) {
-                    throw new Error("Failed to fetch questions");
-                }
+                if (!questionsResponse.ok) throw new Error("Failed to fetch questions");
+
                 const questionsData = await questionsResponse.json();
                 if (Array.isArray(questionsData) && questionsData.length > 0 && questionsData[0].chatQuestions) {
                     setQuestions(questionsData[0].chatQuestions);
                 }
 
-                // Cevapları getir
                 const answersResponse = await fetch(`http://localhost:3001/user-answers/${userId}/${chatNumber}`);
-                if (!answersResponse.ok) {
-                    throw new Error("Failed to fetch answers");
-                }
+                if (!answersResponse.ok) throw new Error("Failed to fetch answers");
+
                 const answersData = await answersResponse.json();
                 if (Array.isArray(answersData.chatAnswers)) {
                     setAnswers(answersData.chatAnswers);
-                    // Hangi soruya kadar cevap verildiğini buluyoruz
                     const answeredQuestions = answersData.chatAnswers.filter(answer => answer.answerText !== "");
-                    setCurrentQuestionIndex(answeredQuestions.length); // Cevaplanmış soru sayısı kadar ilerliyoruz
-
-                    // Son cevap verme zamanı
-                    if (answersData.lastRespondDatetime) {
-                        setLastRespondDatetime(answersData.lastRespondDatetime);
-                    }
+                    setCurrentQuestionIndex(answeredQuestions.length);
+                    if (answersData.lastRespondDatetime) setLastRespondDatetime(answersData.lastRespondDatetime);
                 }
 
-                setLoading(false); // Yüklenme tamamlandı
+                setLoading(false);
             } catch (error) {
                 setLoading(false);
                 toast.error("Failed to load data. Please try again.");
@@ -80,7 +68,6 @@ const Chatbot: React.FC = () => {
         fetchQuestionsAndAnswers();
     }, [userId, chatNumber]);
 
-    // Cevabı backend'e kaydet
     const saveAnswer = async (answerIndex: number, answerText: string) => {
         try {
             const response = await fetch(`http://localhost:3001/user-answers/${userId}/${chatNumber}/${answerIndex}`, {
@@ -91,11 +78,8 @@ const Chatbot: React.FC = () => {
                 body: JSON.stringify({ answerText }),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to save answer");
-            }
+            if (!response.ok) throw new Error("Failed to save answer");
 
-            // Cevabı kaydettikten sonra son cevap zamanını güncelle
             const now = new Date().toISOString();
             setLastRespondDatetime(now);
         } catch (error) {
@@ -106,24 +90,23 @@ const Chatbot: React.FC = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (!input) return;
+        if (!input.trim()) {
+            toast.error("Input cannot be empty.");
+            return;
+        }
 
-        // Cevabı önce frontend'de state'e kaydet
         setAnswers((prev) => {
             const updatedAnswers = [...prev];
-            updatedAnswers[currentQuestionIndex] = { answerText: input }; // Mevcut sorunun cevabını güncelliyoruz
+            updatedAnswers[currentQuestionIndex] = { answerText: input.trim() };
             return updatedAnswers;
         });
 
-        // Input alanını hemen temizleyip bir sonraki soruya geçelim
         setInput("");
         setCurrentQuestionIndex((prev) => prev + 1);
 
-        // Cevabı backend'e kaydetme işlemi
-        await saveAnswer(currentQuestionIndex, input);
+        await saveAnswer(currentQuestionIndex, input.trim());
     };
 
-    // Loading componenti
     if (loading) {
         return (
             <div className="flex justify-center items-center h-full">
@@ -134,7 +117,6 @@ const Chatbot: React.FC = () => {
 
     return (
         <div className="h-[95%] flex flex-col bg-[#212121] shadow-md rounded overflow-auto">
-            {/* Chat içerik alanı */}
             <div className="flex-grow overflow-auto p-4">
                 {questions.slice(0, currentQuestionIndex).map((q, index) => (
                     <div key={index} className="mb-4">
@@ -144,7 +126,6 @@ const Chatbot: React.FC = () => {
                 ))}
             </div>
 
-            {/* Input ve submit alanı */}
             {currentQuestionIndex < questions.length ? (
                 <div className="p-4 bg-[#212121]">
                     <p className="font-bold my-5 text-[#e3e3e3]">

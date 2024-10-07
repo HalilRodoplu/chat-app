@@ -6,22 +6,22 @@ export type UserAnswerDocument = UserAnswer & Document;
 
 @Schema()
 export class UserAnswer {
-  @Prop({ default: UUID })  // UUID otomatik oluşturulur
+  @Prop({ default: UUID })
   id: string;
 
-  @Prop({ required: true })  // Kullanıcı ID'si
+  @Prop({ required: true })
   userId: string;
 
-  @Prop({ default: Date.now })  // Oluşturulma tarihi
+  @Prop({ default: Date.now })
   createdDate: Date;
 
-  @Prop({ required: true })  // Chat numarası
+  @Prop({ required: true })
   chatNumber: number;
 
-  @Prop([{ answerText: String }])  // Cevapların listesi
+  @Prop([{ answerText: String }])
   chatAnswers: { answerText: string }[];
 
-  @Prop({ default: Date.now })  // En son yanıt zamanı
+  @Prop({ default: Date.now })
   lastRespondDatetime: Date;
 }
 

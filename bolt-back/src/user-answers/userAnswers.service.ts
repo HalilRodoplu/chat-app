@@ -15,7 +15,7 @@ export class UserAnswersService {
     let chat = await this.userAnswerModel.findOne({ userId, chatNumber }).exec();
 
     if (!chat) {
-      // Eğer chat bulunamazsa yeni bir belge (document) oluşturuyoruz
+      // Eğer chat bulunamazsa yeni bir belge (document) oluşturuyor
       chat = new this.userAnswerModel({
         userId,
         chatNumber,
@@ -25,10 +25,10 @@ export class UserAnswersService {
           { answerText: "" }, { answerText: "" }
         ],
       });
-      return chat.save();  // Yeni belgeyi kaydediyoruz
+      return chat.save();
     }
 
-    return chat;  // Eğer chat varsa, bu zaten bir Mongoose belgesi olmalı
+    return chat;
   }
 
 

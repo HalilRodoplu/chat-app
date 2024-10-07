@@ -18,17 +18,13 @@ const Home: React.FC = () => {
 
     return (
         <div className="h-screen flex flex-col">
-            {/* Header sabit üstte */}
             <div>
                 <Header />
             </div>
 
-            {/* İçerik alanı */}
             <div className="flex flex-grow h-full">
-                {/* Sidebar sol tarafta */}
                 <Sidebar chats={chats} onSelectChat={handleSelectChat} />
 
-                {/* Chatbot sağ tarafta */}
                 <main className="flex-grow bg-[#212121] p-4">
                     <Chatbot />
                 </main>

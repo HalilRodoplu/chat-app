@@ -22,7 +22,6 @@ const Sidebar = ({ chats, onSelectChat }: SidebarProps) => {
 
     return (
         <div className="h-screen flex">
-            {/* Sidebar İçerik */}
             <div
                 className={`bg-[#171717] text-white ${isOpen ? 'w-64' : 'w-0'} overflow-hidden transition-all duration-300`}>
                 {isOpen && (
@@ -48,7 +47,6 @@ const Sidebar = ({ chats, onSelectChat }: SidebarProps) => {
                 )}
             </div>
 
-            {/* Toggle Button - Sidebar kapalıyken sabit kalsın */}
             <button
                 onClick={toggleSidebar}
                 className="text-slate-500 p-2 hover:bg-[#444444] border-[#444444] rounded top-4 left-32 transition-all duration-400 z-10"

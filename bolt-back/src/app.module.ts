@@ -19,7 +19,6 @@ import { QuestionSeedService } from './questions/questions.seed';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const mongoUri = configService.get<string>('MONGO_URI');
-        console.log('Mongo URI:', mongoUri);  // MONGO_URI'yi yazdır
         return {
           uri: mongoUri,
         };

@@ -4,7 +4,6 @@ import Image from "next/image";
 const Header = () => {
     return (
         <div className="flex justify-between items-center bg-[#212121] text-white p-4 shadow-md">
-            {/* Ortadaki Chatbot Yazısı */}
             <div className="items-center text-2xl font-bold">
                 Chatbot
             </div>
@@ -12,7 +11,6 @@ const Header = () => {
                 Chat
             </div>
 
-            {/* User Banner - Sağda */}
             <div className="flex items-center space-x-4">
                 <span>John Doe</span>
                 <Image
