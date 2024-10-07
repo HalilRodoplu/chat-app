@@ -25,7 +25,7 @@ const Chatbot: React.FC = () => {
 
     // Dinamik userId kullanmak için
     const getUserId = () => {
-        let userId = localStorage.getItem('userId');
+        let userId: string = localStorage.getItem('userId');
         if (!userId) {
             userId = uuidv4(); // Yeni UUID oluştur
             localStorage.setItem('userId', userId); // UUID'yi localStorage'a kaydet
