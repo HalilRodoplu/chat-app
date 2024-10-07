@@ -165,14 +165,14 @@ const Chatbot: React.FC = () => {
                         />
                         <button
                             type="submit"
-                            className="bg-[#676767] p-3 rounded-xl text-[#ffffff]"
+                            className=" flex bg-[#676767] hover:scale-110 duration-300 p-3 rounded-xl text-[#ffffff]"
                         >
                             <FontAwesomeIcon icon={faPaperPlane} />
                         </button>
                     </form>
                 </div>
             ) : (
-                <p className="text-green-600 font-bold p-4">Welcome to Bolt Insight</p>
+                <p className="flex right-0 text-green-600 font-bold p-4">Welcome to Bolt Insight</p>
             )}
         </div>
     );
