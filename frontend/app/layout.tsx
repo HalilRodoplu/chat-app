@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Bolt InSight Chatbot",
+  title: "Chatbot",
   description: "Chatbot App",
 };
 
