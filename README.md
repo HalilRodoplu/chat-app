@@ -1,4 +1,4 @@
-# Bolt Task Project
+# Chatbot Project
 
 This README is available in both English and Turkish.  
 [Check the Turkish Explanation](#turkish-version)
@@ -9,8 +9,8 @@ This README is available in both English and Turkish.
 
 ### Project Structure
 The project has two main directories:
-- `bolt-fe`: The frontend application developed with Next.js
-- `bolt-back`: The backend application developed with NestJS
+- `frontend`: The frontend application developed with Next.js
+- `backend`: The backend application developed with NestJS
 
 Both directories are housed under the main `bolt-task` directory and can function independently.
 
@@ -88,13 +88,13 @@ Requirements:
 
 
     MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/myDatabase
-    cd bolt-back
+    cd backend
     npm install
     npm run start:dev
 
 ### Frontend Setup:
 
-    cd bolt-fe
+    cd frontend
     npm install
     npm run dev
 
@@ -118,8 +118,8 @@ After launching the application, use the frontend interface to interact with the
 
 ### Proje Yapısı
 Proje, iki ana klasör içerir:
-- `bolt-fe`: Next.js ile geliştirilmiş frontend uygulaması
-- `bolt-back`: NestJS ile geliştirilmiş backend uygulaması
+- `frontend`: Next.js ile geliştirilmiş frontend uygulaması
+- `backend`: NestJS ile geliştirilmiş backend uygulaması
 
 Her iki klasör, `bolt-task` ana klasörü altında yer alır ve birbirlerinden bağımsız olarak çalışabilir.
 
@@ -197,13 +197,13 @@ Requirements:
 
 
     MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/myDatabase
-    cd bolt-back
+    cd backend
     npm install
     npm run start:dev
 
 ### Frontend KUrulum:
 
-    cd bolt-fe
+    cd frontend
     npm install
     npm run dev
 
